@@ -1,0 +1,20 @@
+{
+  "name": "generator-discord",
+  "displayName": "Generator-Discord",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "debug": "npx --node-arg=--inspect yo discord"
+  },
+  "author": "Emil Krebs",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.7.2",
+    "yeoman-generator": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/yeoman-generator": "^5.2.10"
+  }
+}
