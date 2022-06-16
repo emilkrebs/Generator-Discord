@@ -4,7 +4,7 @@
       "module": "commonjs",
       "lib": ["ESNext"],
       "sourceMap": true,
-      "outDir": "app",
+      "outDir": "src",
       "strict": false,
       "noUnusedLocals": true,
       "noImplicitReturns": true,
@@ -19,7 +19,7 @@
        "config.json"
     ],
     "exclude": [
-       "app",
+       "src",
        "node_modules"
     ]
   }
