@@ -9,6 +9,7 @@ client.once('ready', () => {
     console.log(getTime() + colors.green('Bot is Ready.'));
     console.log(getTime() + colors.green(`Bot is logged in as ${colors.yellow(client.user!.tag)}.`));
 });
+
 function getTime() {
     let dateTime = new Date()
     return colors.gray(`[${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}] `);
