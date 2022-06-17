@@ -3,7 +3,7 @@
 	  <img width="256" alt="Generator-Discord Logo" src="https://raw.githubusercontent.com/emilkrebs/Generator-Discord/main/assets/icon.svg">
 	</a>
   <h3>
-    Yeomon Generator for Discord.js
+    Yeoman Generator for Discord.js
   </h3>
 </div>
 
@@ -16,9 +16,9 @@
 
 <hr>
 
-I plan adding more templates in the future.
+I wrote this generator to get over creating the same project structure every time. 
 
-[npm](https://www.npmjs.com/package/generator-discord)
+I plan to add more templates in the future.
 
 # Install the Generator
 
