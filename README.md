@@ -10,10 +10,14 @@
 <div id="badges" align="center">
   
    [![Build](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml)
+   [![npm](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)
+	
 </div>
 
-
 <hr>
+
+[npm](https://www.npmjs.com/package/generator-discord)
+
 
 # Getting started
 - Install [node.js](https://nodejs.org/en/)
