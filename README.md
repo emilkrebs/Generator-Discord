@@ -10,8 +10,6 @@
 <div id="badges" align="center">
   
    [![Build](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml)
-   [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/emilkrebs/Sound-bot)
-
 </div>
 
 
