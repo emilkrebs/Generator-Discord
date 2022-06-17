@@ -2,17 +2,30 @@ import { Client, Intents } from 'discord.js';
 import colors from 'colors';
 import { token } from '../config.json';
 
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-
+// run this code once when your client is ready
 client.once('ready', () => {
     console.log(getTime() + colors.green('Bot is Ready.'));
     console.log(getTime() + colors.green(`Bot is logged in as ${colors.yellow(client.user!.tag)}.`));
 });
 
+// run this code when a new messages is created
+client.on('messageCreate', async message => {
+    const { content } = message;
+    if (content === "!ping") {
+        await message.reply("pong!");
+        return;
+    }
+});
+
+// get the current time to get usefull log messages
 function getTime() {
     let dateTime = new Date()
     return colors.gray(`[${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}] `);
 }
-// Login to Discord with your client's token
+
+// login to with your client's token
 client.login(token);
+
+// for more information checkout the official guide: https://discordjs.guide/creating-your-bot

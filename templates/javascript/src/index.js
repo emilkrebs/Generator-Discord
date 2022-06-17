@@ -1,16 +1,31 @@
-const { Client, GatewayIntentBits } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+import { Client, Intents } from 'discord.js';
+import colors from 'colors';
+import { token } from '../config.json';
 
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
+// run this code once when your client is ready
+client.once('ready', () => {
+  console.log(getTime() + colors.green('Bot is Ready.'));
+  console.log(getTime() + colors.green(`Bot is logged in as ${colors.yellow(client.user.tag)}.`));
 });
 
-client.on('interactionCreate', async interaction => {
-  if (!interaction.isChatInputCommand()) return;
-
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong!');
+// run this code when a new messages is created
+client.on('messageCreate', async message => {
+  const { content } = message;
+  if (content === "!ping") {
+    return await message.reply("pong!");
   }
 });
 
-client.login('token');
+
+// get the current time to get usefull log messages
+function getTime() {
+  let dateTime = new Date()
+  return colors.gray(`[${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}] `);
+}
+
+// login with your client's token
+client.login(token);
+
+// for more information checkout the official guide: https://discordjs.guide/creating-your-bot
