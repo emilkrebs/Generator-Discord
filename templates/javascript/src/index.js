@@ -1,6 +1,7 @@
-import { Client, Intents } from 'discord.js';
-import colors from 'colors';
-import { token } from '../config.json';
+const { Client, Intents } = require('discord.js');
+const colors = require('colors');
+const { token } = require('../config.json');
+
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
