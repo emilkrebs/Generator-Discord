@@ -69,9 +69,9 @@ export default class DiscordGenerator extends Generator {
         this.log(" \x1b[36m|  __ \\(_)                     | | \x1b[31m(_)    ");
         this.log(" \x1b[36m| |  | |_ ___  ___ ___  _ __ __| |  \x1b[33m_ ___ ");
         this.log(" \x1b[36m| |  | | / __|/ __/ _ \\| '__/ _` | \x1b[33m| / __|");
-        this.log(" \x1b[36m| |__| | \\__ \\ (_| (_) | | | (_| |_\x1b[32m| \\__ \\");
-        this.log(" \x1b[36m|_____/|_|___/\\___\\___/|_|  \\__,_(_\x1b[34m) |___/");
-        this.log("                                   \x1b[35m_/ |    ");
+        this.log(" \x1b[36m| |__| | \\__ \\ (_| (_) | | | (_| |\x1b[37m_\x1b[32m| \\__ \\");
+        this.log(" \x1b[36m|_____/|_|___/\\___\\___/|_|  \\__,_\x1b[37m(_) \x1b[32m|___/");
+        this.log("                                   \x1b[34m_/ |    ");
         this.log("                                  \x1b[35m|__/     ");
         this.log("\x1b[0m");
     }
