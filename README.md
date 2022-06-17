@@ -21,6 +21,7 @@
 - Install this Generator using `npm install -g generator-discord`
 - To create a new Project run `yo discord`
 
+![Example](https://user-images.githubusercontent.com/68400102/174312258-3cadaff2-7a89-49f7-8d1c-800fc3e2a020.png)
 
 ## Known Issue
 
