@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/emilkrebs/Generator-Discord/issues"
   },
-  "homepage": "https://github.com/emilkrebs/Sound-bot",
+  "homepage": "https://github.com/emilkrebs/Generator-Discord",
   "dependencies": {
     "typescript": "^4.7.2",
     "yeoman-generator": "^5.6.1"
