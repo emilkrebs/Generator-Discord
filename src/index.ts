@@ -33,7 +33,12 @@ export default class DiscordGenerator extends Generator {
                 type: 'input',
                 name: 'botName',
                 message: 'Your Discord Bot name:',
-                default: 'My Bot',
+                default: 'my-bot',
+                validate: (input: string): boolean | string =>
+                new RegExp("^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$").test(input)
+                    ? true
+                    : 'Your Discord Bot name does not match the pattern of: ^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$',
+
             },
             {
                 type: 'list',
@@ -126,8 +131,12 @@ export default class DiscordGenerator extends Generator {
         });
         this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
         this.log('');
+        this.log(this.destinationRoot());
         if (answer && answer.openWithCode) {
-            this.spawnCommand('code', [this.destinationPath()]);
+            this.spawnCommand('code', [this.destinationPath(
+                USER_DIR,
+                this.answers.botName
+            )]);
         }
     }
 }
