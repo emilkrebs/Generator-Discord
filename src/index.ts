@@ -117,7 +117,7 @@ export default class DiscordGenerator extends Generator {
         const answer = await this.prompt({
             type: 'list',
             name: 'openWithCode',
-            message: 'Do you want to open the new folder with Visual Studio Code?',
+            message: 'Do you want to open your Discord Bot with Visual Studio Code?',
             choices: [
                 {
                     name: 'open with `code`',
