@@ -9,21 +9,31 @@
 
 <div id="badges" align="center">
   
-   [![Build](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/sound-bot/actions/workflows/build.yml)
+   [![Build](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml)
    [![npm](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)
 	
 </div>
 
 <hr>
 
+I plan adding more templates in the future.
+
 [npm](https://www.npmjs.com/package/generator-discord)
 
+# Install the Generator
 
-# Getting started
-- Install [node.js](https://nodejs.org/en/)
-- Install Yeoman using `npm install -g yo`
-- Install this Generator using `npm install -g generator-discord`
-- To create a new Project run `yo discord`
+Install Yeoman using 
+```bash
+npm install -g yo
+```
+Install this Generator using 
+```bash
+npm install -g generator-discord
+```
+# Run using yo
+```bash
+yo discord
+```
 
 ![Example](https://user-images.githubusercontent.com/68400102/174312258-3cadaff2-7a89-49f7-8d1c-800fc3e2a020.png)
 
