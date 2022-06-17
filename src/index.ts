@@ -120,7 +120,7 @@ export default class DiscordGenerator extends Generator {
             message: 'Do you want to open the new folder with Visual Studio Code?',
             choices: [
                 {
-                    name: 'code',
+                    name: 'open with `code`',
                     value: true
                 },
                 {
@@ -130,7 +130,7 @@ export default class DiscordGenerator extends Generator {
             ]
         });
         this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
-        this.log('');
+        
         this.log(this.destinationRoot());
         if (answer && answer.openWithCode) {
             this.spawnCommand('code', [this.destinationPath(
