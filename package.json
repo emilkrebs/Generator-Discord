@@ -3,6 +3,13 @@
   "displayName": "Generator-Discord",
   "version": "1.0.0",
   "main": "./src/index.ts",
+  "description": "Yeoman generator for Discord.js",
+  "keywords": [
+    "yeoman-generator", 
+    "discord.js",
+    "discord",
+    "discord bot"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -10,6 +17,14 @@
   },
   "author": "Emil Krebs",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emilkrebs/Generator-Discord.git"
+  },
+  "bugs": {
+    "url": "https://github.com/emilkrebs/Generator-Discord/issues"
+  },
+  "homepage": "https://github.com/emilkrebs/Sound-bot",
   "dependencies": {
     "chalk": "^5.0.1",
     "typescript": "^4.7.2",
