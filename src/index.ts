@@ -18,6 +18,7 @@ interface Answers {
     openWithCode: boolean;
 }
 
+
 export default class DiscordGenerator extends Generator {
     private answers: Answers;
 
@@ -26,6 +27,7 @@ export default class DiscordGenerator extends Generator {
     }
 
     async prompting(): Promise<void> {
+        this.logo();
         this.answers = await this.prompt([
             {
                 type: 'input',
@@ -56,11 +58,24 @@ export default class DiscordGenerator extends Generator {
             }
         ]);
     }
+
+    logo(): void {
+        this.log("  \x1b[36m_____  _                       _   \x1b[31m_     ");
+        this.log(" \x1b[36m|  __ \\(_)                     | | \x1b[31m(_)    ");
+        this.log(" \x1b[36m| |  | |_ ___  ___ ___  _ __ __| |  \x1b[33m_ ___ ");
+        this.log(" \x1b[36m| |  | | / __|/ __/ _ \\| '__/ _` | \x1b[33m| / __|");
+        this.log(" \x1b[36m| |__| | \\__ \\ (_| (_) | | | (_| |_\x1b[32m| \\__ \\");
+        this.log(" \x1b[36m|_____/|_|___/\\___\\___/|_|  \\__,_(_\x1b[34m) |___/");
+        this.log("                                   \x1b[35m_/ |    ");
+        this.log("                                  \x1b[35m|__/     ");
+        this.log("\x1b[0m");
+    }
+
     writing(): void {
         this.sourceRoot(path.join(__dirname, TEMPLATE_DIR + this.answers.programmingLanguage));
         ['.'].forEach(
             (path: string) => {
-                const replaceTemplateWords = (
+                const replaceWords = (
                     answers: Answers,
                     content: Buffer
                 ): string =>
@@ -78,7 +93,6 @@ export default class DiscordGenerator extends Generator {
                             ),
                         content.toString()
                     );
-
                 this.fs.copy(
                     this.templatePath(path),
                     this.destinationPath(
@@ -88,7 +102,7 @@ export default class DiscordGenerator extends Generator {
                     ),
                     {
                         process: (content: Buffer) =>
-                            replaceTemplateWords(this.answers, content)
+                            replaceWords(this.answers, content)
                     }
                 );
             }

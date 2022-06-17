@@ -26,6 +26,7 @@ class DiscordGenerator extends yeoman_generator_1.default {
     }
     prompting() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.logo();
             this.answers = yield this.prompt([
                 {
                     type: 'input',
@@ -57,15 +58,26 @@ class DiscordGenerator extends yeoman_generator_1.default {
             ]);
         });
     }
+    logo() {
+        this.log("  \x1b[36m_____  _                       _   \x1b[31m_     ");
+        this.log(" \x1b[36m|  __ \\(_)                     | | \x1b[31m(_)    ");
+        this.log(" \x1b[36m| |  | |_ ___  ___ ___  _ __ __| |  \x1b[33m_ ___ ");
+        this.log(" \x1b[36m| |  | | / __|/ __/ _ \\| '__/ _` | \x1b[33m| / __|");
+        this.log(" \x1b[36m| |__| | \\__ \\ (_| (_) | | | (_| |_\x1b[32m| \\__ \\");
+        this.log(" \x1b[36m|_____/|_|___/\\___\\___/|_|  \\__,_(_\x1b[34m) |___/");
+        this.log("                                   \x1b[35m_/ |    ");
+        this.log("                                  \x1b[35m|__/     ");
+        this.log("\x1b[0m");
+    }
     writing() {
         this.sourceRoot(path_1.default.join(__dirname, TEMPLATE_DIR + this.answers.programmingLanguage));
         ['.'].forEach((path) => {
-            const replaceTemplateWords = (answers, content) => [
+            const replaceWords = (answers, content) => [
                 [BOT_NAME, this.answers.botName],
                 [BOT_TOKEN, this.answers.botToken]
             ].reduce((acc, [templateWord, userAnswer]) => acc.replace(new RegExp(`${OPEN}${templateWord}${CLOSE}`, 'g'), userAnswer), content.toString());
             this.fs.copy(this.templatePath(path), this.destinationPath(USER_DIR, this.answers.botName, path), {
-                process: (content) => replaceTemplateWords(this.answers, content)
+                process: (content) => replaceWords(this.answers, content)
             });
         });
     }
