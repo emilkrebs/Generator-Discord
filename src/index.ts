@@ -130,8 +130,7 @@ export default class DiscordGenerator extends Generator {
             ]
         });
         this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
-        
-        this.log(this.destinationRoot());
+
         if (answer && answer.openWithCode) {
             this.spawnCommand('code', [this.destinationPath(
                 USER_DIR,
