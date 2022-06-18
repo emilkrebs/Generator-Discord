@@ -10,7 +10,9 @@
 <div id="badges" align="center">
   
    [![Build](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml)
-   [![npm](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)
+   [![downloads](https://img.shields.io/npm/dw/generator-discord?color=orange)](https://www.npmjs.com/package/generator-discord)
+   [![version](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)	
+  
 	
 </div>
 
@@ -35,7 +37,7 @@ npm install -g generator-discord
 yo discord
 ```
 
-![Example](https://user-images.githubusercontent.com/68400102/174312258-3cadaff2-7a89-49f7-8d1c-800fc3e2a020.png)
+[![Example](https://user-images.githubusercontent.com/68400102/174442549-b0ee05c0-4352-40fb-bf61-e436e8f86846.png)](https://github.com/emilkrebs/Sound-Bot)
 
 ## Known Issue
 
