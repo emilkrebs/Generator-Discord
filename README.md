@@ -10,7 +10,9 @@
 <div id="badges" align="center">
   
    [![Build](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml/badge.svg)](https://github.com/emilkrebs/generator-discord/actions/workflows/build.yml)
-   [![npm](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)
+   [![downloads](https://img.shields.io/npm/dw/generator-discord?color=orange)](https://www.npmjs.com/package/generator-discord)
+   [![version](https://img.shields.io/npm/v/generator-discord)](https://www.npmjs.com/package/generator-discord)	
+  
 	
 </div>
 
