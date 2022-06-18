@@ -37,7 +37,7 @@ npm install -g generator-discord
 yo discord
 ```
 
-![Example](https://user-images.githubusercontent.com/68400102/174312258-3cadaff2-7a89-49f7-8d1c-800fc3e2a020.png)
+[![Example](https://user-images.githubusercontent.com/68400102/174442549-b0ee05c0-4352-40fb-bf61-e436e8f86846.png)](https://github.com/emilkrebs/Sound-Bot)
 
 ## Known Issue
 
