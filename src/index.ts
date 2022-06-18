@@ -114,6 +114,8 @@ export default class DiscordGenerator extends Generator {
         );
     }
     async install(): Promise<void> {
+        this.log('');
+        this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
         const answer = await this.prompt({
             type: 'list',
             name: 'openWithCode',
@@ -129,8 +131,7 @@ export default class DiscordGenerator extends Generator {
                 }
             ]
         });
-        this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
-
+        this.log('');
         if (answer && answer.openWithCode) {
             this.spawnCommand('code', [this.destinationPath(
                 USER_DIR,
