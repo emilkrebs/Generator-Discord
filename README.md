@@ -40,5 +40,6 @@ yo discord
 [![Example](https://user-images.githubusercontent.com/68400102/174442549-b0ee05c0-4352-40fb-bf61-e436e8f86846.png)](https://github.com/emilkrebs/Sound-Bot)
 
 ## Known Issue
+None
 
 [Add Issue](https://github.com/emilkrebs/Generator-Discord/issues/new)
