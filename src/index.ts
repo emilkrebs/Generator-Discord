@@ -13,7 +13,7 @@ const BOT_TOKEN = 'bot-token';
 
 interface Answers {
     botName: string;
-    programmingLanguage: string;
+    botType: string;
     botToken: string;
     openWithCode: boolean;
 }
@@ -42,8 +42,8 @@ export default class DiscordGenerator extends Generator {
             },
             {
                 type: 'list',
-                name: 'programmingLanguage',
-                message: 'The programming language you want to use.',
+                name: 'botType',
+                message: 'The type of Discord Bot you want to create.',
                 choices: [
                     {
                         name: 'TypeScript',
@@ -52,6 +52,10 @@ export default class DiscordGenerator extends Generator {
                     {
                         name: 'JavaScript',
                         value: 'javascript'
+                    },
+                    {
+                        name: 'Sound-Bot',
+                        value: 'sound-bot'
                     }
                 ]
             },
@@ -77,7 +81,7 @@ export default class DiscordGenerator extends Generator {
     }
 
     writing(): void {
-        this.sourceRoot(path.join(__dirname, TEMPLATE_DIR + this.answers.programmingLanguage));
+        this.sourceRoot(path.join(__dirname, TEMPLATE_DIR + this.answers.botType));
         ['.'].forEach(
             (path: string) => {
                 const replaceWords = (
