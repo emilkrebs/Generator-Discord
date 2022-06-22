@@ -46,15 +46,15 @@ export default class DiscordGenerator extends Generator {
                 message: 'The type of Discord Bot you want to create.',
                 choices: [
                     {
-                        name: 'TypeScript',
+                        name: 'New Discord Bot (TypeScript)',
                         value: 'typescript'
                     },
                     {
-                        name: 'JavaScript',
+                        name: 'New Discord Bot (JavaScript)',
                         value: 'javascript'
                     },
                     {
-                        name: 'Sound-Bot',
+                        name: 'New Sound-Bot (TypeScript)',
                         value: 'sound-bot'
                     }
                 ]
