@@ -17,6 +17,8 @@
 
 <hr>
 
+**This Template is from https://github.com/emilkrebs/Sound-Bot.**
+
 Play a sound in a discord channel indefinitely.
 I created this to annoy me and my friends on our discord server.
 
@@ -52,12 +54,3 @@ Configuration in the `config.json` file:
 
 ```
 ![Screenshot](https://user-images.githubusercontent.com/68400102/154546484-ba495a30-9f20-4873-baf2-4541c9ab4987.png)
-
-## Please note
-**This repo is created for fun purposes. No contributors, major or minor, are to fault for any actions done by this repo**
-
-## Known Issues
-
-None
-
-[Add Issue](https://github.com/emilkrebs/sound-bot/issues/new)
