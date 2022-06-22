@@ -1,0 +1,5 @@
+{
+	"token":"<%= bot-token %>",
+	"songUrl":"your-song-url",
+	"playCommand":"your-play-command"
+}

@@ -104,5 +104,4 @@ typings/
 .tern-port
 
 # etc
-config.json
 app/
