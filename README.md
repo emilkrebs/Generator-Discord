@@ -18,11 +18,8 @@
 
 <hr>
 
-I wrote this generator to get over creating the same project structure every time. 
 
-I plan to add more templates in the future.
-
-# Install the Generator
+# Installing the Generator
 
 Install Yeoman using 
 ```bash
