@@ -52,10 +52,6 @@ export default class DiscordGenerator extends Generator {
                     {
                         name: 'New Discord Bot (JavaScript)',
                         value: 'javascript'
-                    },
-                    {
-                        name: 'New Sound-Bot (TypeScript)',
-                        value: 'sound-bot'
                     }
                 ]
             },

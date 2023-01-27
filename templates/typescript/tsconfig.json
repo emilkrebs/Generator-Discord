@@ -16,7 +16,6 @@
     },
     "include": [
        "src/**/*.ts",
-       "config.json"
     ],
     "exclude": [
        "dist",
