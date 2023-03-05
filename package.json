@@ -1,7 +1,7 @@
 {
   "name": "generator-discord",
   "displayName": "Generator-Discord",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "main": "./app/index.js",
   "description": "Yeoman generator for Discord.js",
   "keywords": [
