@@ -15,7 +15,7 @@
     "watch": "tsc -w",
     "test": "vitest run",
     "publish": "npm run build && npm publish",
-    "debug": "npm i -g generator-discord && npx --node-arg=--inspect yo discord"
+    "debug": "npx --node-arg=--inspect yo discord"
   },
   "files": [
     "app",
