@@ -35,10 +35,9 @@ export default class DiscordGenerator extends Generator {
                 message: 'Your Discord Bot name:',
                 default: 'my-bot',
                 validate: (input: string): boolean | string =>
-                new RegExp("^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$").test(input)
-                    ? true
-                    : 'Your Discord Bot name does not match the pattern of: ^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$',
-
+                    new RegExp("^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$").test(input)
+                        ? true
+                        : 'Invalid bot name. Please use only lowercase letters, numbers, and hyphens. Must start with a letter.'
             },
             {
                 type: 'list',
@@ -120,7 +119,19 @@ export default class DiscordGenerator extends Generator {
     }
     async install(): Promise<void> {
         this.log('');
+        if (this.answers.botType === 'typescript' || this.answers.botType === 'javascript') {
+            const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
+            this.spawnCommandSync('npm', ['install'], options);
+            if(this.answers.botType === 'typescript') {
+                this.spawnCommandSync('npm', ['run', 'build'], options);
+            }
+        }
+
         this.log('Your Discord Bot ' + this.answers.botName + ' has been created!');
+
+    }
+
+    async end(): Promise<void> {
         const answer = await this.prompt({
             type: 'list',
             name: 'openWithCode',
