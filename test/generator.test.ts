@@ -1,5 +1,3 @@
-// write a unit test for the yeoman generator
-
 import { describe, test } from 'vitest';
 import path from 'path';
 import { createHelpers } from 'yeoman-test';
@@ -9,12 +7,14 @@ const typescriptAnswers = {
     botName: 'typescript-bot',
     botType: 'typescript',
     botToken: 'xxx',
+    openWithCode: false,
 }
 
 const pythonAnswers = {
     botName: 'python-bot',
     botType: 'python',
     botToken: 'xxxx',
+    openWithCode: false,
 }
 
 describe('Check if the generator works', () => {
