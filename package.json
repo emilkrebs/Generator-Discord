@@ -14,7 +14,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "vitest run",
-    "debug": "npx --node-arg=--inspect yo discord"
+    "debug": "npx --node-arg=--inspect yo discord",
+    "clean": "npx rimraf app && npx rimraf node_modules"
   },
   "files": [
     "app",
