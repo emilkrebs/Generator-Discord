@@ -39,8 +39,8 @@
     "yeoman-generator": "^5.9.0"
   },
   "devDependencies": {
-    "yeoman-test": "~7.4.0",
     "dotenv": "^16.3.1",
-    "vitest": "^0.34.1"
+    "vitest": "^0.34.1",
+    "yeoman-test": "^7.4.0"
   }
 }
