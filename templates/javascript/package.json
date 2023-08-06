@@ -8,6 +8,6 @@
     "start": "node ./src/index.js"
   },
   "dependencies": {
-    "discord.js": "^13.13.1"
+    "discord.js": "^14.12.1",
   }
 }
