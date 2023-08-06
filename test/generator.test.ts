@@ -57,23 +57,22 @@ const CONFIG_JSON_EXPECTED = normilizeEOL(`{
 }`);
 
 const BOT_PY_EXPECTED = normilizeEOL(`import discord
-from discord.ext import commands
 
-# Define bot prefix and create bot instance
-bot_prefix = "!"
-bot = commands.Bot(command_prefix=bot_prefix)
+intents = discord.Intents.default()
+intents.message_content = True
 
-# Define bot events
-@bot.event
+client = discord.Client(intents=intents)
+
+@client.event
 async def on_ready():
-    print(f"Logged in as {bot.user.name} ({bot.user.id})")
+    print(f'Bot is logged in as  {client.user}')
 
-# Define bot commands
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
 
-# Run bot with bot token
-bot.run("xxxx")
+    if message.content.startswith('!ping'):
+        await message.channel.send('Pong!')
 
-# For more information on how to use discord.py, visit https://discordpy.readthedocs.io/en/latest/`);
+client.run('xxxx')`);
