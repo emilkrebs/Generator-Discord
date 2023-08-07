@@ -28,7 +28,7 @@ Generate a basic starter project for a new discord bot in your favorite programm
 
 ### Your favorite is not listed?
 
-[Request template](https://github.com/emilkrebs/Generator-Discord/issues/new)
+[Request template](https://github.com/emilkrebs/Generator-Discord/issues/new?assignees=&labels=template&projects=&template=template-request.md&title=)
 
 # Installing the Generator
 
