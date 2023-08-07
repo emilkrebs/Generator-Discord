@@ -19,7 +19,7 @@
 
 <hr>
 
-Generate a basic starter project for a new discord bot in your favorite programming language.
+Generate a basic starter project for a new Discord-bot in your favorite programming language.
 
 ### Supported programming languages
 - TypeScript
