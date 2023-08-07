@@ -1,7 +1,7 @@
 ---
 name: Template request
 about: Request a new template
-title: ''
+title: 'Template Request: '
 labels: template
 assignees: ''
 
