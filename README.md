@@ -19,6 +19,16 @@
 
 <hr>
 
+Generate a basic starter project for a new Discord-bot in your favorite programming language.
+
+### Supported programming languages
+- TypeScript
+- JavaScript
+- Python
+
+### Your favorite is not listed?
+
+[Request template](https://github.com/emilkrebs/Generator-Discord/issues/new?assignees=&labels=template&projects=&template=template-request.md&title=Template+Request%3A+)
 
 # Installing the Generator
 
