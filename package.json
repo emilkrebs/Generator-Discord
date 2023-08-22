@@ -1,7 +1,7 @@
 {
   "name": "generator-discord",
   "displayName": "Generator-Discord",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "./app/index.js",
   "description": "Yeoman generator for Discord.js",
   "keywords": [
@@ -39,7 +39,7 @@
     "yeoman-generator": "^5.9.0"
   },
   "devDependencies": {
-    "vitest": "^0.34.1",
+    "vitest": "^0.34.2",
     "yeoman-test": "^7.4.0"
   }
 }

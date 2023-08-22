@@ -1,7 +1,6 @@
 import Generator from 'yeoman-generator';
 import path from 'path';
 
-
 const TEMPLATE_DIR = '../templates/';
 const USER_DIR = '.';
 
@@ -117,6 +116,7 @@ export default class DiscordGenerator extends Generator {
             }
         );
     }
+
     async install(): Promise<void> {
         this.log('');
         if (this.answers.botType === 'typescript' || this.answers.botType === 'javascript') {
