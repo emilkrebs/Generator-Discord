@@ -5,7 +5,28 @@
 
 version: 2
 updates:
+
+  # Maintain dependencies for the main project
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+      
+  # Maintain dependencies for the typescript template
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/templates/typescript" # Location of package manifests
+    schedule:
+      interval: "weekly"
+      
+  # Maintain dependencies for the javascript template
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/templates/javascript" # Location of package manifests
+    schedule:
+      interval: "weekly"
+      
+  # Maintain dependencies for the python template
+  - package-ecosystem: "pip" # See documentation for possible values
+    directory: "/templates/python" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
