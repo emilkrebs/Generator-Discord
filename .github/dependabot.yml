@@ -17,19 +17,19 @@ updates:
   - package-ecosystem: "npm"
     directory: "/templates/typescript" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
     versioning-strategy: increase
 
   # Maintain dependencies for the javascript template
   - package-ecosystem: "npm"
     directory: "/templates/javascript" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
     versioning-strategy: increase
       
   # Maintain dependencies for the python template
   - package-ecosystem: "pip"
     directory: "/templates/python" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
 
