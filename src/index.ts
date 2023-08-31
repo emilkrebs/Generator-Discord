@@ -4,15 +4,16 @@ import path from 'path';
 const TEMPLATE_DIR = '../templates/';
 const USER_DIR = '.';
 
-const OPEN = '<%= ';
-const CLOSE = ' %>';
+const BOT_NAME = /<%= bot-name %>/g;
+const BOT_TOKEN = /<%= bot-token %>/g;
 
-const BOT_NAME = 'bot-name';
-const BOT_TOKEN = 'bot-token';
+const BOT_NAME_RUST = /bot_name/g;
+
+type BotType = 'typescript' | 'javascript' | 'python' | 'rust';
 
 interface Answers {
     botName: string;
-    botType: string;
+    botType: BotType;
     botToken: string;
     openWithCode: boolean;
 }
@@ -86,24 +87,6 @@ export default class DiscordGenerator extends Generator {
         this.sourceRoot(path.join(__dirname, TEMPLATE_DIR + this.answers.botType));
         ['.'].forEach(
             (path: string) => {
-                const replaceWords = (
-                    answers: Answers,
-                    content: Buffer
-                ): string =>
-                    [
-                        [BOT_NAME, answers.botName],
-                        [BOT_TOKEN, answers.botToken]
-                    ].reduce(
-                        (acc: string, [templateWord, userAnswer]) =>
-                            acc.replace(
-                                new RegExp(
-                                    `${OPEN}${templateWord}${CLOSE}`,
-                                    'g'
-                                ),
-                                userAnswer
-                            ),
-                        content.toString()
-                    );
                 this.fs.copy(
                     this.templatePath(path),
                     this.destinationPath(
@@ -112,8 +95,7 @@ export default class DiscordGenerator extends Generator {
                         path
                     ),
                     {
-                        process: (content: Buffer) =>
-                            replaceWords(this.answers, content)
+                        process: (content: Buffer) => this._replaceWords(content, this.answers)
                     }
                 );
             }
@@ -157,5 +139,17 @@ export default class DiscordGenerator extends Generator {
                 this.answers.botName
             )]);
         }
+    }
+
+    _replaceWords(content: Buffer, answers: Answers): string {
+        if(answers.botType === 'rust') {
+            return content.toString()
+                .replace(BOT_TOKEN, answers.botToken)
+                .replace(BOT_NAME_RUST, answers.botName);
+        }
+
+        return content.toString()
+            .replace(BOT_TOKEN,answers.botToken)
+            .replace(BOT_NAME, answers.botName);
     }
 }

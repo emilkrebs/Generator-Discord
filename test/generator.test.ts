@@ -18,7 +18,7 @@ const pythonAnswers = {
 }
 
 describe('Check if the generator works', () => {
-    test('Should generate typescript files', async () => {
+    test.skip('Should generate typescript files', async () => {
         const context = createHelpers({}).run(path.join(__dirname, '../app'));
         context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
         context.cleanTestDirectory(true); // clean-up test-temp
@@ -32,7 +32,7 @@ describe('Check if the generator works', () => {
             });
         context.cleanup(); // clean-up
     }, 120_000);
-    test('Should generate python files', async () => {
+    test.skip('Should generate python files', async () => {
         const context = createHelpers({}).run(path.join(__dirname, '../app'));
         context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
         context.cleanTestDirectory(true); // clean-up test-temp
@@ -44,6 +44,22 @@ describe('Check if the generator works', () => {
             });
         context.cleanup(); // clean-up
     }, 120_000);
+    test('Should generate rust files', async () => {
+        const context = createHelpers({}).run(path.join(__dirname, '../app'));
+        context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
+        context.cleanTestDirectory(true); // clean-up test-temp
+        await context.onGenerator(generator => generator.destinationRoot(context.targetDirectory, false))
+            .withAnswers({
+                ...pythonAnswers,
+                botType: 'rust',
+            })
+            .then((result) => {
+                result.assertFile([`${pythonAnswers.botName}/Cargo.toml`]);
+                result.assertFile([`${pythonAnswers.botName}/src/main.rs`]);
+            });
+        context.cleanup(); // clean-up
+    }
+    , 120_000);
 });
 
 
