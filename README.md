@@ -25,6 +25,7 @@ Generate a basic starter project for a new Discord-bot in your favorite programm
 - TypeScript
 - JavaScript
 - Python
+- Rust
 
 ### Your favorite is not listed?
 
