@@ -50,12 +50,15 @@ export default class DiscordGenerator extends Generator {
                     {
                         name: 'New Discord Bot (JavaScript)',
                         value: 'javascript'
-                    }
-                    ,
+                    },
                     {
                         name: 'New Discord Bot (Python)',
                         value: 'python'
-                    }
+                    },
+                    {
+                        name: 'New Discord Bot (Rust)',
+                        value: 'rust'
+                    },
                 ]
             },
             {
@@ -88,8 +91,8 @@ export default class DiscordGenerator extends Generator {
                     content: Buffer
                 ): string =>
                     [
-                        [BOT_NAME, this.answers.botName],
-                        [BOT_TOKEN, this.answers.botToken]
+                        [BOT_NAME, answers.botName],
+                        [BOT_TOKEN, answers.botToken]
                     ].reduce(
                         (acc: string, [templateWord, userAnswer]) =>
                             acc.replace(
