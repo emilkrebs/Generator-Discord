@@ -20,7 +20,7 @@ interface Answers {
 
 
 export default class DiscordGenerator extends Generator {
-	private answers: Answers;
+	private answers: Answers = {} as Answers;
 
 	constructor(args: string | string[], options: Generator.GeneratorOptions) {
 		super(args, options);

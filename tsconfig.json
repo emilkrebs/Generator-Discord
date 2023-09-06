@@ -6,7 +6,7 @@
       "sourceMap": true,
       "outDir": "app",
       "rootDir": "src",
-      "strict": false,
+      "strict": true,
       "noUnusedLocals": true,
       "noImplicitReturns": true,
       "moduleResolution": "node",
