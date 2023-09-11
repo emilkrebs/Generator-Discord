@@ -7,7 +7,7 @@ const prefix = '!';
 
 // Run this code when the client is ready. This event will only trigger one time after logging in
 client.once('ready', () => {
-	console.log(`Bot is logged in as ${client.user.tag}.`);
+	console.log(`Bot is logged in as ${client.user!.tag}.`);
 });
 
 
