@@ -7,6 +7,7 @@ I only maintain the latest version because no projects depend on this package.
 | Version | Supported          |
 | ------- | ------------------ |
 | latest   | :white_check_mark: |
+| 1.2.4  | :x:                |
 | 1.2.3  | :x:                |
 | ...  | :x:                |
 
