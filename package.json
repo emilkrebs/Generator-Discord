@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.49.0",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.4",
+    "vitest": "^0.34.5",
     "yeoman-test": "^7.4.0"
   }
 }
