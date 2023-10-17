@@ -1,78 +1,79 @@
 import { describe, test } from 'vitest';
 import path from 'path';
 import { createHelpers } from 'yeoman-test';
-import {EOL} from 'os';
 
-const typescriptAnswers = {
-	botName: 'typescript-bot',
+const currentUrl = new URL('../', import.meta.url).pathname;
+
+const defaultAnswers = {
+	botName: 'test-bot',
 	botType: 'typescript',
 	botToken: 'xxx',
 	openWithCode: false,
 };
 
-const pythonAnswers = {
-	botName: 'python-bot',
-	botType: 'python',
-	botToken: 'xxxx',
-	openWithCode: false,
-};
+describe('Check yeoman generator works', () => {
+	const targetRoot = path.join(currentUrl, defaultAnswers.botName) + '/';
+    
+	test('Should produce TypeScript files', async () => {
+		const context = createHelpers({}).run(path.join(currentUrl, './app'));
+		context.targetDirectory = targetRoot;
+		context.cleanTestDirectory(true); 
+		await context
+			.withAnswers(defaultAnswers)
+			.withArguments(['skip-install', 'skip-build'])
+			.then((result) => {
+				const files = [
+					targetRoot + 'config.json',
+					targetRoot + 'src/index.ts',
+					targetRoot + 'tsconfig.json',
+					targetRoot + 'package.json',
+				];
+				result.assertFile(files);
+				result.assertJsonFileContent(targetRoot + 'config.json', CONFIG_JSON_EXPECTED);
+			});
+		context.cleanup();
+	}, 120_000);
 
-describe('Check if the generator works', () => {
-	test('Should generate typescript files', async () => {
-		const context = createHelpers({}).run(path.join(__dirname, '../app'));
-		context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
-		context.cleanTestDirectory(true); // clean-up test-temp
-		await context.onGenerator(generator => generator.destinationRoot(context.targetDirectory, false))
-			.withAnswers(typescriptAnswers)
+	test('Should produce Python files', async () => {
+		const context = createHelpers({}).run(path.join(currentUrl, './app'));
+		context.targetDirectory = targetRoot;
+		context.cleanTestDirectory(true); 
+		await context
+			.withAnswers({...defaultAnswers, botType: 'python'})
 			.then((result) => {
-				result.assertFile([`${typescriptAnswers.botName}/package.json`]);
-				result.assertFile([`${typescriptAnswers.botName}/config.json`]);
-				result.assertFile([`${typescriptAnswers.botName}/src/index.ts`]);
-				result.assertFileContent(`${typescriptAnswers.botName}/config.json`, CONFIG_JSON_EXPECTED);
+				const files = [
+					targetRoot + 'main.py',
+					targetRoot + 'requirements.txt',
+				];
+				result.assertFile(files);
+				result.assertFileContent(targetRoot + 'main.py', PYTHON_BOT_EXPECTED);
 			});
-		context.cleanup(); // clean-up
+		context.cleanup();
 	}, 120_000);
-	test('Should generate python files', async () => {
-		const context = createHelpers({}).run(path.join(__dirname, '../app'));
-		context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
-		context.cleanTestDirectory(true); // clean-up test-temp
-		await context.onGenerator(generator => generator.destinationRoot(context.targetDirectory, false))
-			.withAnswers(pythonAnswers)
+
+	test('Should produce Rust files', async () => {
+		const context = createHelpers({}).run(path.join(currentUrl, './app'));
+		context.targetDirectory = targetRoot;
+		context.cleanTestDirectory(true); 
+		await context
+			.withAnswers({...defaultAnswers, botType: 'rust'})
 			.then((result) => {
-				result.assertFile([`${pythonAnswers.botName}/bot.py`]);
-				result.assertFileContent(`${pythonAnswers.botName}/bot.py`, BOT_PY_EXPECTED);
+				const files = [
+					targetRoot + 'src/main.rs',
+					targetRoot + 'Cargo.toml',
+				];
+				result.assertFile(files);
+				result.assertFileContent(targetRoot + 'Cargo.toml', CARGO_TOML_EXPECTED);
 			});
-		context.cleanup(); // clean-up
+		context.cleanup();
 	}, 120_000);
-	test('Should generate rust files', async () => {
-		const context = createHelpers({}).run(path.join(__dirname, '../app'));
-		context.targetDirectory = path.join(__dirname, '../test-temp'); // generate in test-temp
-		context.cleanTestDirectory(true); // clean-up test-temp
-		await context.onGenerator(generator => generator.destinationRoot(context.targetDirectory, false))
-			.withAnswers({
-				...pythonAnswers,
-				botType: 'rust',
-			})
-			.then((result) => {
-				result.assertFile([`${pythonAnswers.botName}/Cargo.toml`]);
-				result.assertFile([`${pythonAnswers.botName}/src/main.rs`]);
-			});
-		context.cleanup(); // clean-up
-	}
-	, 120_000);
 });
 
+const CONFIG_JSON_EXPECTED: Record<string, string> = {
+	'token':'xxx'
+};
 
-function normilizeEOL(str: string) {
-	return str.replace(/\r?\n/g, EOL);
-}
-
-// norminlize end of line
-const CONFIG_JSON_EXPECTED = normilizeEOL(`{
-    "token":"xxx"
-}`);
-
-const BOT_PY_EXPECTED = normilizeEOL(`import discord
+const PYTHON_BOT_EXPECTED = `import discord
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -91,4 +92,17 @@ async def on_message(message):
     if message.content.startswith('!ping'):
         await message.channel.send('Pong!')
 
-client.run('xxxx')`);
+client.run('xxx')
+`;
+
+const CARGO_TOML_EXPECTED = `[package]
+name = "test-bot" 
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serenity = { version = "0.11.6", default-features = false, features = ["client", "gateway", "rustls_backend", "model"] }
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+`;
