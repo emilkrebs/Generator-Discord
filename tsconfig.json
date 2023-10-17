@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-      "target": "ES6",
-      "module": "commonjs",
+      "target": "ES2022",
+      "module": "Node16",
       "lib": ["ESNext"],
       "sourceMap": true,
       "outDir": "app",
@@ -9,10 +9,12 @@
       "strict": true,
       "noUnusedLocals": true,
       "noImplicitReturns": true,
-      "moduleResolution": "node",
+      "noImplicitOverride": true,
+      "moduleResolution": "Node16",
       "esModuleInterop": true,
       "skipLibCheck": true,
       "declaration": true,
+      "declarationMap": true,
       "resolveJsonModule": true,
       "forceConsistentCasingInFileNames": true
     },
