@@ -99,7 +99,7 @@ export default class DiscordGenerator extends Generator {
 					path
 				),
 				{
-					process: (content) => this._replaceWords(content, this.answers)
+					process: (content: Buffer) => this._replaceWords(content, this.answers)
 				}
 			);
 		}
