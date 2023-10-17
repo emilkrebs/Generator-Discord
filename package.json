@@ -39,11 +39,12 @@
     "yeoman-generator": "^5.9.0"
   },
   "devDependencies": {
+    "@types/yeoman-generator": "^5.2.12",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
     "eslint": "^8.51.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
-    "yeoman-test": "^7.4.0"
+    "yeoman-test": "^8.1.0"
   }
 }
