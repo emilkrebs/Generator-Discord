@@ -23,7 +23,7 @@ interface Answers {
 export default class DiscordGenerator extends Generator {
 	private answers: Answers = {} as Answers;
 
-	constructor(args: string | string[], options: Generator.GeneratorOptions) {
+	constructor(args: string | string[], options: Record<string, unknown>) {
 		super(args, options);
 	}
 
@@ -85,8 +85,10 @@ export default class DiscordGenerator extends Generator {
 	}
 
 	writing(): void {
-		this.sourceRoot(path.join(__dirname, TEMPLATE_DIR + this.answers.botType));
+		const currentUrl = new URL('.', import.meta.url).pathname;
 		const paths = ['.'];
+
+		this.sourceRoot(path.join(currentUrl, TEMPLATE_DIR + this.answers.botType));
 
 		// iterate over all files
 		for (let i = 0, len = paths.length; i < len; i++) {
@@ -99,7 +101,7 @@ export default class DiscordGenerator extends Generator {
 					path
 				),
 				{
-					process: (content: Buffer) => this._replaceWords(content, this.answers)
+					process: (content: string | Buffer) => this._replaceWords(content, this.answers)
 				}
 			);
 		}
@@ -110,12 +112,14 @@ export default class DiscordGenerator extends Generator {
 		if (this.answers.botType === 'typescript' || this.answers.botType === 'javascript') {
 			const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
 
-			this.log('Installing dependencies...');
-			this.spawnCommandSync('npm', ['install'], options);
+			if(this.answers.botType === 'typescript' || this.answers.botType === 'javascript' && !this.args.includes('skip-install')) {
+				this.log('Installing dependencies...');
+				await this.spawn('npm', ['install'], options);
+			}
 
-			if (this.answers.botType === 'typescript') {
+			if (this.answers.botType === 'typescript' && !this.args.includes('skip-build')) {
 				this.log('Building your Discord Bot...');
-				this.spawnCommandSync('npm', ['run', 'build'], options);
+				await this.spawn('npm', ['run', 'build'], options);
 			}
 		}
 
@@ -141,14 +145,14 @@ export default class DiscordGenerator extends Generator {
 		});
 		this.log('');
 		if (answer && answer.openWithCode) {
-			this.spawnCommand('code', [this.destinationPath(
+			this.spawn('code', [this.destinationPath(
 				USER_DIR,
 				this.answers.botName
 			)]);
 		}
 	}
 
-	_replaceWords(content: Buffer, answers: Answers): string {
+	_replaceWords(content: string | Buffer, answers: Answers): string {
 		if (answers.botType === 'rust') {
 			return content.toString()
 				.replace(BOT_TOKEN, answers.botToken)
