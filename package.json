@@ -49,7 +49,6 @@
     "eslint": "^8.51.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
-    "yeoman-environment": "^3.19.3",
     "yeoman-test": "^8.1.0"
   }
 }
