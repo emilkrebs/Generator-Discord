@@ -17,7 +17,7 @@ jobs:
       - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 21
       - run: npm ci
       - run: npm run build
       - run: npm test
@@ -32,7 +32,7 @@ jobs:
       - name: Use node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '21.x'
           registry-url: https://registry.npmjs.org/
       - name: Clean install dependencies
         run: npm ci
