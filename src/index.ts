@@ -19,6 +19,29 @@ interface Answers {
 	openWithCode: boolean;
 }
 
+interface BotNameValidation {
+	regex: RegExp;
+	errorMessage: string;
+}
+
+const botNameValidation: Record<BotType, BotNameValidation> = {
+	typescript: {
+		regex: new RegExp('^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$'),
+		errorMessage: 'Invalid bot name. Please use only lowercase letters, numbers, and hyphens. Must start with a letter.'
+	},
+	javascript: {
+		regex: new RegExp('^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$'),
+		errorMessage: 'Invalid bot name. Please use only lowercase letters, numbers, and hyphens. Must start with a letter.'
+	},
+	python: {
+		regex: new RegExp('^[a-zA-Z0-9_]+$'),
+		errorMessage: 'Invalid bot name. Please use only letters, numbers, and underscores. Must start with a letter.'
+	},
+	rust: {
+		regex: new RegExp('/^[a-z][a-z0-9_-]*$/'),
+		errorMessage: 'Invalid bot name. Please use only lowercase letters, numbers, underscores, and hyphens. Must start with a letter.'
+	}
+};
 
 export default class DiscordGenerator extends Generator {
 	private answers: Answers = {} as Answers;
@@ -29,39 +52,40 @@ export default class DiscordGenerator extends Generator {
 
 	async prompting(): Promise<void> {
 		this.logo();
+
+		const askBotType = await this.prompt({
+			type: 'list',
+			name: 'botType',
+			message: 'The type of Discord Bot you want to create.',
+			choices: [
+				{
+					name: 'New Discord Bot (TypeScript)',
+					value: 'typescript'
+				},
+				{
+					name: 'New Discord Bot (JavaScript)',
+					value: 'javascript'
+				},
+				{
+					name: 'New Discord Bot (Python)',
+					value: 'python'
+				},
+				{
+					name: 'New Discord Bot (Rust)',
+					value: 'rust'
+				},
+			]
+		}) as { botType: BotType };
+
+		
 		this.answers = await this.prompt([
 			{
 				type: 'input',
 				name: 'botName',
 				message: 'Your Discord Bot name:',
 				default: 'my-bot',
-				validate: (input: string): boolean | string =>
-					new RegExp('^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$').test(input)
-						? true
-						: 'Invalid bot name. Please use only lowercase letters, numbers, and hyphens. Must start with a letter.'
-			},
-			{
-				type: 'list',
-				name: 'botType',
-				message: 'The type of Discord Bot you want to create.',
-				choices: [
-					{
-						name: 'New Discord Bot (TypeScript)',
-						value: 'typescript'
-					},
-					{
-						name: 'New Discord Bot (JavaScript)',
-						value: 'javascript'
-					},
-					{
-						name: 'New Discord Bot (Python)',
-						value: 'python'
-					},
-					{
-						name: 'New Discord Bot (Rust)',
-						value: 'rust'
-					},
-				]
+				validate: (input: string): boolean | string => 
+					botNameValidation[askBotType.botType].regex.test(input) ? true : botNameValidation[askBotType.botType].errorMessage
 			},
 			{
 				type: 'input',
@@ -70,6 +94,8 @@ export default class DiscordGenerator extends Generator {
 				default: 'your-bot-token'
 			}
 		]);
+		
+		this.answers.botType = askBotType.botType;
 	}
 
 	logo(): void {
