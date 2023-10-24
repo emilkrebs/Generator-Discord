@@ -14,7 +14,7 @@ Now that your fork is ready, you can start improving the project.
 ### Keep in mind
 Testing your work will always be helpful to check everything works as intended. 
 
-To test the generator, you can either use `npm run test` or `npm run debug` (you have to `npm link` first)
+To test the generator, you can either use `npm run test` or `npm link` and `yo discord` to test the generator yourself.
   
 ## 3. Create the Pull Request
 After making all the changes, create a [Pull Request](https://github.com/emilkrebs/Generator-Discord/compare) selecting your fork to compare to.
