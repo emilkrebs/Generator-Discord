@@ -1,5 +1,6 @@
 import Generator from 'yeoman-generator';
 import path from 'path';
+import url from 'url';
 
 const TEMPLATE_DIR = '../templates/';
 const USER_DIR = '.';
@@ -24,6 +25,7 @@ interface BotNameValidation {
 	errorMessage: string;
 }
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const botNameValidation: Record<BotType, BotNameValidation> = {
 	typescript: {
 		regex: new RegExp('^(?:@[a-z0-9-*~][a-z0-9-*._~]*/)?[a-z0-9-~][a-z0-9-._~]*$'),
@@ -42,6 +44,8 @@ const botNameValidation: Record<BotType, BotNameValidation> = {
 		errorMessage: 'Invalid bot name. Please use only lowercase letters, numbers, underscores, and hyphens. Must start with a letter.'
 	}
 };
+
+
 
 export default class DiscordGenerator extends Generator {
 	private answers: Answers = {} as Answers;
@@ -111,10 +115,9 @@ export default class DiscordGenerator extends Generator {
 	}
 
 	writing(): void {
-		const currentUrl = new URL('.', import.meta.url).pathname;
 		const paths = ['.'];
 
-		this.sourceRoot(path.join(currentUrl, TEMPLATE_DIR + this.answers.botType));
+		this.sourceRoot(path.join(__dirname, TEMPLATE_DIR, this.answers.botType));
 
 		// iterate over all files
 		for (let i = 0, len = paths.length; i < len; i++) {
