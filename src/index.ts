@@ -152,7 +152,7 @@ export default class DiscordGenerator extends Generator {
 			}
 		}
 
-		this.log('Your Discord Bot \'\x1b[32m' + this.answers.botName + '\x1b[0m\' has been created!');
+		this.log('Your Discord Bot \x1b[32m' + this.answers.botName + '\x1b[0m has been created!');
 
 	}
 
