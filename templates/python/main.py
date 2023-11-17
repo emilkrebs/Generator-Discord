@@ -1,7 +1,6 @@
 import discord
 
 intents = discord.Intents.default()
-intents.message_content = True
 
 client = discord.Client(intents=intents)
 
@@ -17,4 +16,5 @@ async def on_message(message):
     if message.content.startswith('!ping'):
         await message.channel.send('Pong!')
 
-client.run('<%= bot-token %>')
+# 'log_handler=None' is used to disable the default logging handler. Remove it if you want to use the default logging handler.
+client.run('<%= bot-token %>', log_handler=None)
