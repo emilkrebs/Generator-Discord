@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { createHelpers } from 'yeoman-test';
-import { spawn } from 'child_process';
+import { spawn, exec } from 'child_process';
 import * as dotenv from 'dotenv';
 import path from 'path';
 import url from 'url';
@@ -57,11 +57,11 @@ describe('Check if the templates work', () => {
 			})
 			.withAnswers({...defaultAnswers, botType: 'python' })
 			.then(async () => {
-				// install dependencies
-				await spawn('pip3', ['install', '-r', 'requirements.txt'], { cwd: resultRoot, stdio: 'inherit' }).on('close', async () => {
-					const result = await runBot('python', ['main.py'], resultRoot);
-					expect(result).toContain(BOT_OUTPUT_START);
-				});
+				// install dependencies 
+				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
+
+				const result = await runBot('python', ['main.py'], resultRoot);
+				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
 		context.cleanup();
@@ -73,6 +73,11 @@ async function runBot(command: string, args: string[], root: string): Promise<st
 	const childProcess = spawn(command, args, { cwd: root, stdio: 'pipe', timeout: TIMEOUT });
 
 	const result = await new Promise<string>((resolve) => {
+		const timeout = setTimeout(() => {
+			resolve('TIMEOUT');
+		}, TIMEOUT);
+
+		
 		childProcess.stdout.on('data', (data) => {
 			clearTimeout(timeout);
 			
@@ -88,11 +93,6 @@ async function runBot(command: string, args: string[], root: string): Promise<st
 		childProcess.on('close', () => {
 			clearTimeout(timeout);
 		});
-
-		const timeout = setTimeout(() => {
-			resolve('TIMEOUT');
-		}, TIMEOUT);
-
 
 	});
 
