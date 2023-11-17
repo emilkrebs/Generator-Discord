@@ -52,12 +52,12 @@ async function runBot(root: string): Promise<boolean> {
 
 		const process = exec('npm run start', { cwd: root, timeout: 10000  }, (error, stdout, stderr) => {
 			if (error) {
-				console.error(error);
+				console.error('Error',error);
 				resolve(false);
 			}
 
 			if(stderr) {
-				process.kill('SIGINT');
+				console.error('STDERR', stderr);
 				resolve(false);
 			}
 
@@ -65,6 +65,7 @@ async function runBot(root: string): Promise<boolean> {
 
 			// if the bot is logged in return true and kill the process
 			if (stdout.includes(BOT_OUTPUT_START)) {
+				console.log('Bot is logged in, killing process');
 				process.kill('SIGINT');
 				resolve(true);
 			}
