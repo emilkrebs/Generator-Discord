@@ -8,7 +8,7 @@ import url from 'url';
 const __dirname = url.fileURLToPath(new URL('../', import.meta.url));
 const TIMEOUT = 30_000; // 30 seconds
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config();
 
 const { BOT_TOKEN } = process.env;
 if (!BOT_TOKEN) {
