@@ -73,11 +73,12 @@ async function runBot(command: string, args: string[], root: string): Promise<st
 	const childProcess = spawn(command, args, { cwd: root, stdio: 'pipe', timeout: TIMEOUT });
 
 	const result = await new Promise<string>((resolve) => {
+		// timeout
 		const timeout = setTimeout(() => {
 			resolve('TIMEOUT');
 		}, TIMEOUT);
 
-		
+		// output
 		childProcess.stdout.on('data', (data) => {
 			clearTimeout(timeout);
 			
