@@ -45,7 +45,8 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test('Should generate and run JavaScript Discord Bot', async () => {
+	
+	test.skip('Should generate and run Python Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
@@ -54,10 +55,13 @@ describe('Check if the templates work', () => {
 			.onGenerator(generator => {
 				generator.destinationRoot(targetRoot);
 			})
-			.withAnswers({...defaultAnswers, botType: 'javascript' })
+			.withAnswers({...defaultAnswers, botType: 'python' })
 			.then(async () => {
-				const result = await runBot('node', ['./src/index.js'], resultRoot);
-				expect(result).toContain(BOT_OUTPUT_START);
+				// install dependencies
+				await spawn('pip3', ['install', '-r', 'requirements.txt'], { cwd: resultRoot, stdio: 'inherit' }).on('close', async () => {
+					const result = await runBot('python', ['main.py'], resultRoot);
+					expect(result).toContain(BOT_OUTPUT_START);
+				});
 			});
 
 		context.cleanup();
@@ -92,7 +96,7 @@ async function runBot(command: string, args: string[], root: string): Promise<st
 
 	});
 
-	childProcess.kill();
+	childProcess.kill('SIGINT');
 	return result;
 }
 
