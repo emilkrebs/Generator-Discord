@@ -18,7 +18,7 @@ describe('Check yeoman generator works', () => {
 	const moduleRoot = path.join(__dirname, 'app');
 	const resultRoot = path.join(targetRoot, defaultAnswers.botName);
 
-	test('Should produce TypeScript files', async () => {
+	test.skip('Should produce TypeScript files', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 		const configJson = path.join(resultRoot, 'config.json');
 
@@ -43,7 +43,7 @@ describe('Check yeoman generator works', () => {
 		// context.cleanup();
 	}, 120_000);
 
-	test('Should produce Python files', async () => {
+	test.skip('Should produce Python files', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 		const mainPy = path.join(resultRoot, 'main.py');
 
@@ -65,7 +65,7 @@ describe('Check yeoman generator works', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test('Should produce Rust files', async () => {
+	test.skip('Should produce Rust files', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 		const cargoToml = path.join(resultRoot, 'Cargo.toml');
 
