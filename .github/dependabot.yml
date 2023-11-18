@@ -30,12 +30,14 @@ updates:
   # Maintain dependencies for the python template
   - package-ecosystem: "pip"
     directory: "/templates/python" # Location of package manifests
+    versioning-strategy: increase
     schedule:
       interval: "daily"
 
   # Maintain dependencies for the rust template
   - package-ecosystem: "cargo"
-    directory: "/templates/rust" # Location of package manifests
+    directory: "/templates/rust" # Location of package manifests#
+    versioning-strategy: increase
     schedule:
       interval: "daily"
 
