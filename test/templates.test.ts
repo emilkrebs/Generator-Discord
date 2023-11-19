@@ -64,7 +64,7 @@ describe('Check if the templates work', () => {
 	}, 120_000);
 
 
-	test.skip('Should generate and run Python Discord Bot', async () => {
+	test('Should generate and run Python Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
@@ -78,7 +78,7 @@ describe('Check if the templates work', () => {
 				// install dependencies 
 				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
 
-				const result = await runBot('python', ['main.py'], resultRoot, DEFAULT_TIMEOUT);
+				const result = await runBot('python', ['./main.py'], resultRoot, DEFAULT_TIMEOUT);
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
@@ -115,7 +115,7 @@ describe('Check if the templates work', () => {
  * @returns {Promise<string>} The output of the command
 */
 async function runBot(command: string, args: string[], root: string, timeoutTime: number): Promise<string> {
-	const childProcess = spawn(command, args, { cwd: root, stdio: 'pipe', timeout: timeoutTime });
+	const childProcess = spawn(command, args, { cwd: root, timeout: timeoutTime });
 
 	const result = await new Promise<string>((resolve) => {
 		// timeout
