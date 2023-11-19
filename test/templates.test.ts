@@ -45,6 +45,28 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
+	test('Should generate and run Python Discord Bot', async () => {
+		const context = createHelpers({}).run(moduleRoot);
+
+		context.targetDirectory = targetRoot;
+		context.cleanTestDirectory(true);
+		await context
+			.onGenerator(generator => {
+				generator.destinationRoot(targetRoot);
+			})
+			.withAnswers({ ...defaultAnswers, botType: 'python' })
+			.then(async () => {
+				// install dependencies 
+				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
+
+				const result = await runBot('python', ['./main.py'], resultRoot, DEFAULT_TIMEOUT);
+				console.log(result);
+				expect(result).toContain(BOT_OUTPUT_START);
+			});
+
+		context.cleanup();
+	}, 120_000);
+
 	test('Should generate and run JavaScript Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
@@ -62,30 +84,6 @@ describe('Check if the templates work', () => {
 
 		context.cleanup();
 	}, 120_000);
-
-
-	test('Should generate and run Python Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
-
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers({ ...defaultAnswers, botType: 'python' })
-			.then(async () => {
-				// install dependencies 
-				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
-
-				const result = await runBot('python', ['./main.py'], resultRoot, DEFAULT_TIMEOUT);
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-
-		context.cleanup();
-	}, 120_000);
-
-
 
 	test('Should generate and run Rust Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
