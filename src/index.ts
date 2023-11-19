@@ -138,18 +138,31 @@ export default class DiscordGenerator extends Generator {
 
 	async install(): Promise<void> {
 		this.log('');
-		if (this.answers.botType === 'typescript' || this.answers.botType === 'javascript') {
-			const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
+		
+		const botType = this.answers.botType;
+		const skipBuild = this.args.includes('skip-build');
+		const skipInstall = this.args.includes('skip-install');
+		
+		const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
 
-			if(this.answers.botType === 'typescript' || this.answers.botType === 'javascript' && !this.args.includes('skip-install')) {
+		if (botType === 'typescript' || botType === 'javascript') {
+		
+
+			if(botType=== 'typescript' || botType === 'javascript' && !skipInstall) {
 				this.log('Installing dependencies...');
 				await this.spawn('npm', ['install'], options);
 			}
 
-			if (this.answers.botType === 'typescript' && !this.args.includes('skip-build')) {
+			if (botType=== 'typescript' && !skipBuild) {
 				this.log('Building your Discord Bot...');
 				await this.spawn('npm', ['run', 'build'], options);
 			}
+		}
+
+		
+		if (botType === 'rust' && !skipBuild) {
+			this.log('Building your Discord Bot...');
+			await this.spawn('cargo', ['build'], options);
 		}
 
 		this.log('Your Discord Bot \x1b[32m' + this.answers.botName + '\x1b[0m has been created!');
