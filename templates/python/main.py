@@ -1,4 +1,5 @@
 import discord
+from config import TOKEN
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -18,4 +19,4 @@ async def on_message(message):
         await message.channel.send('Pong!')
 
 # 'log_handler=None' is used to disable the default logging handler. Remove it if you want to use the default logging handler.
-client.run('<%= bot-token %>', log_handler=None)
+client.run(TOKEN, log_handler=None)
