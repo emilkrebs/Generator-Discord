@@ -34,9 +34,10 @@ updates:
       interval: "daily"
 
   # Maintain dependencies for the rust template
-  - package-ecosystem: "rust:cargo"
+  - package-ecosystem: "cargo"
     directory: "/templates/rust" # Location of package manifests#
     schedule:
       interval: "daily"
+    versioning-strategy: increase
 
 
