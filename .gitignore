@@ -103,6 +103,9 @@ typings/
 # TernJS port file
 .tern-port
 
+# Rust
+templates/rust/target/
+
 # etc
 app/
 test-temp/
