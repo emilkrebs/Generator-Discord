@@ -40,13 +40,13 @@
   },
   "homepage": "https://github.com/emilkrebs/Generator-Discord",
   "dependencies": {
-    "yeoman-generator": "^7.1.0"
+    "yeoman-generator": "^7.1.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
     "yeoman-test": "^8.2.0"
