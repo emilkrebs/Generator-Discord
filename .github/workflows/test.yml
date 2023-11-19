@@ -27,6 +27,9 @@ jobs:
     - name: 'Create env file'
       run: |
         echo "${{ secrets.ENV_FILE }}" > .env
+    - name: 'Install dependencies'
+      run: |
+        pip3 install -r templates/python/requirements.txt
     - run: npm ci
     - run: npm run build
     - run: npm run test

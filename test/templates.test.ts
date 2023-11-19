@@ -60,7 +60,6 @@ describe('Check if the templates work', () => {
 				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
 
 				const result = await runBot('python', ['./main.py'], resultRoot, DEFAULT_TIMEOUT);
-				console.log(result);
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
