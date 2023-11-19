@@ -38,6 +38,5 @@ updates:
     directory: "/templates/rust" # Location of package manifests#
     schedule:
       interval: "daily"
-    versioning-strategy: increase
 
 
