@@ -47,7 +47,7 @@
     "@typescript-eslint/parser": "^6.12.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.54.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "vitest": "^0.34.6",
     "yeoman-test": "^8.2.0"
   }
