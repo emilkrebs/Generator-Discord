@@ -106,6 +106,10 @@ typings/
 # Rust
 templates/rust/target/
 
+# Python
+*.pyc
+__pycache__/
+
 # etc
 app/
 test-temp/

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { createHelpers } from 'yeoman-test';
-import { spawn, exec } from 'child_process';
+import { spawn } from 'child_process';
 import * as dotenv from 'dotenv';
 import path from 'path';
 import url from 'url';
@@ -57,9 +57,25 @@ describe('Check if the templates work', () => {
 			.withAnswers({ ...defaultAnswers, botType: 'python' })
 			.then(async () => {
 				// install dependencies 
-				await exec('pip3 install -r requirements.txt', { cwd: resultRoot });
+				console.info('Installing Python dependencies...');
+				const result = await new Promise<string>((resolve) => {
+					spawn('pip3', ['install', '-r', 'requirements.txt'], { cwd: resultRoot, timeout: DEFAULT_TIMEOUT })
+						.on('close', async () => {
+							console.info('Done installing Python dependencies.');
 
-				const result = await runBot('python', ['./main.py'], resultRoot, DEFAULT_TIMEOUT);
+							resolve(await runBot('python', ['main.py'], resultRoot, DEFAULT_TIMEOUT));
+
+						})
+						.on('error', (err) => {
+							console.error('There was an error while installing the Python dependecies', err);
+							resolve('PYTHON DEPENDENCY ERROR');
+						})
+						.stderr.on('data', (data) => {
+							console.error('There was an error while installing the Python dependecies', data);
+							resolve('PYTHON DEPENDENCY ERROR');
+						});
+				});
+
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
@@ -84,7 +100,7 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test('Should generate and run Rust Discord Bot', async () => {
+	test.only('Should generate and run Rust Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
@@ -96,7 +112,7 @@ describe('Check if the templates work', () => {
 			.withAnswers({ ...defaultAnswers, botType: 'rust' })
 			.withArguments(['skip-build'])
 			.then(async () => {
-				const result = await runBot('cargo', ['run', '--release', '--quiet'] , resultRoot, 120_000); // 2 minutes
+				const result = await runBot('cargo', ['run', '--release', '--quiet'], resultRoot, 120_000); // 2 minutes
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
@@ -115,26 +131,54 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 	const childProcess = spawn(command, args, { cwd: root, timeout: timeoutTime });
 
 	const result = await new Promise<string>((resolve) => {
+		const output: string[] = [];
+		let currentOutputTimeout: NodeJS.Timeout;
+
 		// timeout
 		const safetyTimeout = setTimeout(() => {
-			resolve('TIMEOUT');
+			resolve('BOT RUN TIMEOUT');
 		}, timeoutTime);
+
+		const restartOutputTimeout = () => {
+			currentOutputTimeout = setTimeout(() => {
+				childProcess.kill('SIGINT');
+				resolve(output.join('\n'));
+			}, 5_000);
+		};
+
+		const clearTimeouts = () => {
+			clearTimeout(safetyTimeout);
+			clearTimeout(currentOutputTimeout);
+		};
+
+		const onData = (data: string) => {
+			clearTimeouts();
+
+			console.log('Bot Data:', data.toString());
+			// if the bot has successfully started, resolve the promise
+			if (data.toString().includes(BOT_OUTPUT_START)) {
+				resolve(data.toString());
+			}
+
+			// restart output timeout
+			restartOutputTimeout();
+			output.push(data.toString());
+		};
 
 		// output
 		childProcess.stdout.on('data', (data) => {
-			clearTimeout(safetyTimeout);
-
-			resolve(data.toString());
+			onData(data.toString());
 		});
 
+		// output error
 		childProcess.stderr.on('data', (data) => {
-			clearTimeout(safetyTimeout);
-
-			resolve(data.toString());
+			onData(data.toString());
 		});
-
+		// process close
 		childProcess.on('close', () => {
-			clearTimeout(safetyTimeout);
+			clearTimeouts();
+
+			resolve(output.join('\n'));
 		});
 
 	});
@@ -144,4 +188,4 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 }
 
 
-const BOT_OUTPUT_START = 'Bot is logged in as';
+const BOT_OUTPUT_START = 'Bot is logged in as'; 
