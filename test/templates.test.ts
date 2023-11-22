@@ -111,7 +111,7 @@ describe('Check if the templates work', () => {
 			.withAnswers({ ...defaultAnswers, botType: 'rust' })
 			.withArguments(['skip-build'])
 			.then(async () => {
-				const result = await runBot('cargo', ['run', '--release', '--quiet'], resultRoot, 120_000); // 2 minutes
+				const result = await runBot('cargo', ['run', '--release'], resultRoot, 120_000); // 2 minutes
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
