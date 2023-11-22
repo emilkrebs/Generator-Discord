@@ -152,6 +152,9 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 
 		const onData = (data: string) => {
 			clearTimeouts();
+
+			console.log(data);
+
 			// if the bot has successfully started, resolve the promise
 			if (data.toString().includes(BOT_OUTPUT_START)) {
 				resolve(data.toString());
