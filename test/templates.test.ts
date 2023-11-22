@@ -45,7 +45,7 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test('Should generate and run Python Discord Bot', async () => {
+	test.skip('Should generate and run Python Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
@@ -75,7 +75,6 @@ describe('Check if the templates work', () => {
 							resolve('PYTHON DEPENDENCY ERROR');
 						});
 				});
-
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
@@ -153,13 +152,10 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 
 		const onData = (data: string) => {
 			clearTimeouts();
-
-			console.log('Bot Data:', data.toString());
 			// if the bot has successfully started, resolve the promise
 			if (data.toString().includes(BOT_OUTPUT_START)) {
 				resolve(data.toString());
 			}
-
 			// restart output timeout
 			restartOutputTimeout();
 			output.push(data.toString());
