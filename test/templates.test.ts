@@ -100,7 +100,7 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test.only('Should generate and run Rust Discord Bot', async () => {
+	test('Should generate and run Rust Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
