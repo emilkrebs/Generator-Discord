@@ -6,12 +6,6 @@ permissions:
 on:
   release:
     types: [published]
-  
-  workflow_run:
-    workflows: ["tests"]
-    branches: [main]
-    types:
-      - completed
 
 jobs:
   publish-npm:
