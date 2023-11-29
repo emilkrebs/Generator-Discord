@@ -31,4 +31,5 @@ jobs:
       run: |
         pip3 install -r templates/python/requirements.txt
     - run: rustup update stable
+    - run: npm ci
     - run: npm run test
