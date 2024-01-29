@@ -47,7 +47,7 @@
     "dotenv": "^16.3.2",
     "eslint": "^8.56.0",
     "typescript": "^5.3.3",
-    "vitest": "^1.2.1",
+    "vitest": "^1.2.2",
     "yeoman-test": "^8.2.0"
   }
 }
