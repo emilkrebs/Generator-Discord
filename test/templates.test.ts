@@ -99,7 +99,7 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test.skip('Should generate and run Rust Discord Bot', async () => {
+	test('Should generate and run Rust Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
@@ -111,7 +111,7 @@ describe('Check if the templates work', () => {
 			.withAnswers({ ...defaultAnswers, botType: 'rust' })
 			.withArguments(['skip-build'])
 			.then(async () => {
-				const result = await runBot('cargo', ['run', '--release', '--quiet'], resultRoot, 120_000); // 2 minutes
+				const result = await runBot('cargo', ['run','--release','--quiet'], resultRoot, 120_000); // 2 minutes
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
 
