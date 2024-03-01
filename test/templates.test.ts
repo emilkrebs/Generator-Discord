@@ -41,10 +41,27 @@ describe('Check if the templates work', () => {
 				const result = await runBot('node', ['./dist/src/index.js'], resultRoot, DEFAULT_TIMEOUT);
 				expect(result).toContain(BOT_OUTPUT_START);
 			});
-
+		
 		context.cleanup();
 	}, 120_000);
 
+	test('Should generate and run JavaScript Discord Bot', async () => {
+		const context = createHelpers({}).run(moduleRoot);
+		context.targetDirectory = targetRoot;
+		context.cleanTestDirectory(true);
+		await context
+			.onGenerator(generator => {
+				generator.destinationRoot(targetRoot);
+			})
+			.withAnswers({ ...defaultAnswers, botType: 'javascript' })
+			.then(async () => {
+				const result = await runBot('node', ['./src/index.js'], resultRoot, DEFAULT_TIMEOUT);
+				expect(result).toContain(BOT_OUTPUT_START);
+			});
+
+		context.cleanup();
+	}, 120_000);
+	
 	test.skip('Should generate and run Python Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
@@ -81,24 +98,6 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 
-	test('Should generate and run JavaScript Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
-
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers({ ...defaultAnswers, botType: 'javascript' })
-			.then(async () => {
-				const result = await runBot('node', ['./src/index.js'], resultRoot, DEFAULT_TIMEOUT);
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-
-		context.cleanup();
-	}, 120_000);
-
 	test('Should generate and run Rust Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
@@ -117,6 +116,7 @@ describe('Check if the templates work', () => {
 
 		context.cleanup();
 	}, 180_000); // 3 minutes
+
 });
 
 /** Run a command in a child process and return the output
@@ -152,9 +152,6 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 
 		const onData = (data: string) => {
 			clearTimeouts();
-
-			console.log(data);
-
 			// if the bot has successfully started, resolve the promise
 			if (data.toString().includes(BOT_OUTPUT_START)) {
 				resolve(data.toString());
@@ -173,6 +170,7 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 		childProcess.stderr.on('data', (data) => {
 			onData(data.toString());
 		});
+
 		// process close
 		childProcess.on('close', () => {
 			clearTimeouts();
@@ -182,6 +180,7 @@ async function runBot(command: string, args: string[], root: string, timeoutTime
 
 	});
 
+	console.info('Killing the bot process with result:', result);
 	childProcess.kill('SIGINT');
 	return result;
 }
