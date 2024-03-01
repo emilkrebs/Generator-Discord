@@ -33,7 +33,7 @@ jobs:
     - run: rustup update stable
     - name: 'Install Node Dependencies'
       run: | 
-        npm i
+        npm ci
     - name: 'Build project'
       run: |
         npm run build
