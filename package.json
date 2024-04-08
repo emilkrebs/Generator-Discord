@@ -50,6 +50,6 @@
     "yeoman-test": "^8.2.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+    "@rollup/rollup-linux-x64-gnu": "^4.14.1"
   }
 }
