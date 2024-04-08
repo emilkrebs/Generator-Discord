@@ -44,7 +44,7 @@
   "devDependencies": {
     "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
-    "typescript": "^5.4.3",
+    "typescript": "^5.4.4",
     "typescript-eslint": "^7.3.0",
     "vitest": "^1.4.0",
     "yeoman-test": "^8.2.0"
