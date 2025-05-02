@@ -2,7 +2,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import { token } from '../config.json';
 
 // Create a new client instance with Intents that specify which privileged intents your bot requires
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 const prefix = '!';
 
 // Run this code when the client is ready. This event will only trigger one time after logging in
