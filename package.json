@@ -1,7 +1,7 @@
 {
   "name": "generator-discord",
   "displayName": "Generator-Discord",
-  "version": "1.3.17",
+  "version": "1.3.18",
   "type": "module",
   "exports": "./app/index.js",
   "description": "Create a basic Discord-Bot, supporting many programming languages.",
@@ -43,14 +43,14 @@
   },
   "devDependencies": {
     "dotenv": "^16.5.0",
-    "eslint": "^9.25.1",
+    "eslint": "^9.26.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.31.1",
-    "vitest": "^3.1.2",
+    "typescript-eslint": "^8.32.0",
+    "vitest": "^3.1.3",
     "yeoman-environment": "^4.4.3",
     "yeoman-test": "^10.1.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.40.1"
+    "@rollup/rollup-linux-x64-gnu": "^4.40.2"
   }
 }

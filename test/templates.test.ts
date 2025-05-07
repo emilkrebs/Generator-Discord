@@ -62,7 +62,7 @@ describe('Check if the templates work', () => {
 		context.cleanup();
 	}, 120_000);
 	
-	test.skip('Should generate and run Python Discord Bot', async () => {
+	test('Should generate and run Python Discord Bot', async () => {
 		const context = createHelpers({}).run(moduleRoot);
 
 		context.targetDirectory = targetRoot;
