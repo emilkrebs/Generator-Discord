@@ -45,7 +45,7 @@
     "dotenv": "^17.2.1",
     "eslint": "^9.34.0",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.40.0",
+    "typescript-eslint": "^8.45.0",
     "vitest": "^3.2.4",
     "yeoman-environment": "^4.4.3",
     "yeoman-test": "^10.1.1"
