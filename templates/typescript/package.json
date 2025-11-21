@@ -10,7 +10,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "discord.js": "^14.24.2",
+    "discord.js": "^14.25.1",
     "typescript": "^5.9.2"
   }
 }
