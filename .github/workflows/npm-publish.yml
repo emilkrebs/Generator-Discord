@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: '24.x'
+      - name: Update npm
+        run: npm install -g npm@latest
       - name: Clean install dependencies
         run: npm ci
       - name: Build
