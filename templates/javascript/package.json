@@ -4,10 +4,13 @@
   "description": "Please enter a brief description here",
   "version": "1.0.0",
   "main": "./src/index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node ./src/index.js"
   },
   "dependencies": {
-    "discord.js": "^14.24.2"
+    "discord.js": "^14.27.0"
   }
 }

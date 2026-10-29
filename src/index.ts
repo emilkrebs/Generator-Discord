@@ -40,7 +40,7 @@ const botNameValidation: Record<BotType, BotNameValidation> = {
 		errorMessage: 'Invalid bot name. Please use only letters, numbers, and underscores. Must start with a letter.'
 	},
 	rust: {
-		regex: new RegExp('/^[a-z][a-z0-9_-]*$/'),
+		regex: new RegExp('^[a-z][a-z0-9_-]*$'),
 		errorMessage: 'Invalid bot name. Please use only lowercase letters, numbers, underscores, and hyphens. Must start with a letter.'
 	}
 };
@@ -50,15 +50,11 @@ const botNameValidation: Record<BotType, BotNameValidation> = {
 export default class DiscordGenerator extends Generator {
 	private answers: Answers = {} as Answers;
 
-	constructor(args: string | string[], options: Record<string, unknown>) {
-		super(args, options);
-	}
-
 	async prompting(): Promise<void> {
 		this.logo();
 
 		const askBotType = await this.prompt({
-			type: 'list',
+			type: 'select',
 			name: 'botType',
 			message: 'The type of Discord Bot you want to create.',
 			choices: [
@@ -115,25 +111,24 @@ export default class DiscordGenerator extends Generator {
 	}
 
 	writing(): void {
-		const paths = ['.'];
-
 		this.sourceRoot(path.join(__dirname, TEMPLATE_DIR, this.answers.botType));
 
-		// iterate over all files
-		for (let i = 0, len = paths.length; i < len; i++) {
-			const path = paths[i];
-			this.fs.copy(
-				this.templatePath(path),
-				this.destinationPath(
-					USER_DIR,
-					this.answers.botName,
-					path
-				),
-				{
-					process: (content: string | Buffer) => this._replaceWords(content, this.answers)
+		this.fs.copy(
+			this.templatePath('.'),
+			this.destinationPath(USER_DIR, this.answers.botName),
+			{
+				fileTransform: ({ destinationPath, contents }) => {
+					const targetPath = path.basename(destinationPath) === '_gitignore'
+						? path.join(path.dirname(destinationPath), '.gitignore')
+						: destinationPath;
+
+					return {
+						path: targetPath,
+						contents: this._replaceWords(contents, this.answers)
+					};
 				}
-			);
-		}
+			}
+		);
 	}
 
 	async install(): Promise<void> {
@@ -146,14 +141,12 @@ export default class DiscordGenerator extends Generator {
 		const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
 
 		if (botType === 'typescript' || botType === 'javascript') {
-		
-
-			if(botType=== 'typescript' || botType === 'javascript' && !skipInstall) {
+			if (!skipInstall) {
 				this.log('Installing dependencies...');
 				await this.spawn('npm', ['install'], options);
 			}
 
-			if (botType=== 'typescript' && !skipBuild) {
+			if (botType === 'typescript' && !skipBuild) {
 				this.log('Building your Discord Bot...');
 				await this.spawn('npm', ['run', 'build'], options);
 			}
@@ -171,7 +164,7 @@ export default class DiscordGenerator extends Generator {
 
 	async end(): Promise<void> {
 		const answer = await this.prompt({
-			type: 'list',
+			type: 'select',
 			name: 'openWithCode',
 			message: 'Do you want to open your Discord Bot with \x1b[36mVisual Studio Code\x1b[0m?',
 			choices: [
