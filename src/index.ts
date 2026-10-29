@@ -141,13 +141,12 @@ export default class DiscordGenerator extends Generator {
 		const options = { cwd: this.destinationPath(USER_DIR, this.answers.botName) };
 
 		if (botType === 'typescript' || botType === 'javascript') {
-		
-			if ((botType === 'typescript' || botType === 'javascript') && !skipInstall) {
+			if (!skipInstall) {
 				this.log('Installing dependencies...');
 				await this.spawn('npm', ['install'], options);
 			}
 
-			if (botType=== 'typescript' && !skipBuild) {
+			if (botType === 'typescript' && !skipBuild) {
 				this.log('Building your Discord Bot...');
 				await this.spawn('npm', ['run', 'build'], options);
 			}
