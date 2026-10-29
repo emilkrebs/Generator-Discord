@@ -1,42 +1,70 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
-updates:
 
+updates:
   # Maintain dependencies for the main project
   - package-ecosystem: "npm"
-    directory: "/" # Location of package manifests
+    directory: "/"
     schedule:
       interval: "weekly"
     versioning-strategy: increase
-      
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
   # Maintain dependencies for the typescript template
   - package-ecosystem: "npm"
-    directory: "/templates/typescript" # Location of package manifests
+    directory: "/templates/typescript"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     versioning-strategy: increase
+    open-pull-requests-limit: 3
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
 
   # Maintain dependencies for the javascript template
   - package-ecosystem: "npm"
-    directory: "/templates/javascript" # Location of package manifests
+    directory: "/templates/javascript"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     versioning-strategy: increase
-      
+    open-pull-requests-limit: 3
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
   # Maintain dependencies for the python template
   - package-ecosystem: "pip"
-    directory: "/templates/python" # Location of package manifests
+    directory: "/templates/python"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
 
   # Maintain dependencies for the rust template
   - package-ecosystem: "cargo"
-    directory: "/templates/rust" # Location of package manifests#
+    directory: "/templates/rust"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
 
-
+  # Keep GitHub Actions up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns: ["*"]

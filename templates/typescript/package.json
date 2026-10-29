@@ -3,14 +3,20 @@
   "displayName": "<%= bot-name %>",
   "description": "Please enter a brief description here",
   "version": "1.0.0",
-  "main": "./src/index.ts",
+  "main": "./dist/src/index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "start": "tsc && node ./dist/src/index.js",
+    "start": "npm run build && node ./dist/src/index.js",
     "watch": "tsc -w",
     "build": "tsc"
   },
   "dependencies": {
-    "discord.js": "^14.24.2",
-    "typescript": "^5.9.2"
+    "discord.js": "^14.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
   }
 }

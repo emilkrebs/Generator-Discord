@@ -1,189 +1,94 @@
 import { describe, expect, test } from 'vitest';
-import { createHelpers } from 'yeoman-test';
-import { spawn } from 'child_process';
-import * as dotenv from 'dotenv';
-import path from 'path';
-import url from 'url';
+import helpers from 'yeoman-test';
+import { execFile } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import url from 'node:url';
+import { promisify } from 'node:util';
 
+const exec = promisify(execFile);
 const __dirname = url.fileURLToPath(new URL('../', import.meta.url));
-const DEFAULT_TIMEOUT = 60_000; // 1 minute
-
-dotenv.config();
-
-const { BOT_TOKEN } = process.env;
-if (!BOT_TOKEN) {
-	throw new Error('You must specify a valid bot token in the BOT_TOKEN environment variable');
-}
+const moduleRoot = path.join(__dirname, 'app');
 
 const defaultAnswers = {
 	botName: 'test-run-bot',
-	botType: 'typescript',
-	botToken: BOT_TOKEN,
+	botToken: 'test-token',
 	openWithCode: false,
 };
 
-describe('Check if the templates work', () => {
-	const targetRoot = path.join(__dirname, 'test-temp');
-	const moduleRoot = path.join(__dirname, 'app');
-	const resultRoot = path.join(targetRoot, defaultAnswers.botName);
+type BotType = 'typescript' | 'javascript' | 'python' | 'rust';
 
-	test('Should generate and run TypeScript Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
+/** Generate a bot and return the directory it was written to. */
+async function generate(botType: BotType, args: string[] = []): Promise<string> {
+	const result = await helpers.run(moduleRoot)
+		.withAnswers({ ...defaultAnswers, botType })
+		.withArguments(args)
+		.run();
 
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers(defaultAnswers)
-			.then(async () => {
-				const result = await runBot('node', ['./dist/src/index.js'], resultRoot, DEFAULT_TIMEOUT);
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-		
-		context.cleanup();
-	}, 120_000);
-
-	test('Should generate and run JavaScript Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers({ ...defaultAnswers, botType: 'javascript' })
-			.then(async () => {
-				const result = await runBot('node', ['./src/index.js'], resultRoot, DEFAULT_TIMEOUT);
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-
-		context.cleanup();
-	}, 120_000);
-	
-	test.skip('Should generate and run Python Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
-
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers({ ...defaultAnswers, botType: 'python' })
-			.then(async () => {
-				// install dependencies 
-				console.info('Installing Python dependencies...');
-				const result = await new Promise<string>((resolve) => {
-					spawn('pip3', ['install', '-r', 'requirements.txt'], { cwd: resultRoot, timeout: DEFAULT_TIMEOUT })
-						.on('close', async () => {
-							console.info('Done installing Python dependencies.');
-
-							resolve(await runBot('python', ['main.py'], resultRoot, DEFAULT_TIMEOUT));
-
-						})
-						.on('error', (err) => {
-							console.error('There was an error while installing the Python dependecies', err);
-							resolve('PYTHON DEPENDENCY ERROR');
-						})
-						.stderr.on('data', (data) => {
-							console.error('There was an error while installing the Python dependecies', data);
-							resolve('PYTHON DEPENDENCY ERROR');
-						});
-				});
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-
-		context.cleanup();
-	}, 120_000);
-
-	test('Should generate and run Rust Discord Bot', async () => {
-		const context = createHelpers({}).run(moduleRoot);
-
-		context.targetDirectory = targetRoot;
-		context.cleanTestDirectory(true);
-		await context
-			.onGenerator(generator => {
-				generator.destinationRoot(targetRoot);
-			})
-			.withAnswers({ ...defaultAnswers, botType: 'rust' })
-			.withArguments(['skip-build'])
-			.then(async () => {
-				const result = await runBot('cargo', ['run','--release','--quiet'], resultRoot, 120_000); // 2 minutes
-				expect(result).toContain(BOT_OUTPUT_START);
-			});
-
-		context.cleanup();
-	}, 180_000); // 3 minutes
-
-});
-
-/** Run a command in a child process and return the output
- * @param {string} command The command to run
- * @param {string[]} args The arguments to pass to the command
- * @param {string} root The root directory to run the command in
- * @param {number} timeoutTime The time in milliseconds to wait before timing out
- * @returns {Promise<string>} The output of the command
-*/
-async function runBot(command: string, args: string[], root: string, timeoutTime: number): Promise<string> {
-	const childProcess = spawn(command, args, { cwd: root, timeout: timeoutTime });
-
-	const result = await new Promise<string>((resolve) => {
-		const output: string[] = [];
-		let currentOutputTimeout: NodeJS.Timeout;
-
-		// timeout
-		const safetyTimeout = setTimeout(() => {
-			resolve('BOT RUN TIMEOUT');
-		}, timeoutTime);
-
-		const restartOutputTimeout = () => {
-			currentOutputTimeout = setTimeout(() => {
-				childProcess.kill('SIGINT');
-				resolve(output.join('\n'));
-			}, 7_000);
-		};
-
-		const clearTimeouts = () => {
-			clearTimeout(safetyTimeout);
-			clearTimeout(currentOutputTimeout);
-		};
-
-		const onData = (data: string) => {
-			clearTimeouts();
-			// if the bot has successfully started, resolve the promise
-			if (data.toString().includes(BOT_OUTPUT_START)) {
-				resolve(data.toString());
-			}
-			// restart output timeout
-			restartOutputTimeout();
-			output.push(data.toString());
-		};
-
-		// output
-		childProcess.stdout.on('data', (data) => {
-			onData(data.toString());
-		});
-
-		// output error
-		childProcess.stderr.on('data', (data) => {
-			onData(data.toString());
-		});
-
-		// process close
-		childProcess.on('close', () => {
-			clearTimeouts();
-
-			resolve(output.join('\n'));
-		});
-
-	});
-
-	console.info('Killing the bot process with result:', result);
-	childProcess.kill('SIGINT');
-	return result;
+	return path.join(result.cwd, defaultAnswers.botName);
 }
 
+/** Run a command and return its combined output, whether it succeeds or not. */
+async function run(command: string, args: string[], root: string, timeout: number): Promise<string> {
+	try {
+		const { stdout, stderr } = await exec(command, args, { cwd: root, timeout });
+		return `${stdout}${stderr}`;
+	} catch (error) {
+		const failure = error as { stdout?: string; stderr?: string; message?: string };
+		return `${failure.stdout ?? ''}${failure.stderr ?? ''}${failure.message ?? ''}`;
+	}
+}
 
-const BOT_OUTPUT_START = 'Bot is logged in as'; 
+describe('Generated templates', () => {
+	test('substitutes the bot name and token and ships a .gitignore', async () => {
+		for (const botType of ['typescript', 'javascript', 'python', 'rust'] as BotType[]) {
+			const root = await generate(botType, ['skip-build', 'skip-install']);
+			const gitignore = await readFile(path.join(root, '.gitignore'), 'utf8');
+
+			expect(gitignore.length).toBeGreaterThan(0);
+			expect(gitignore).not.toContain('_gitignore');
+			expect(gitignore).toContain(botType === 'python' ? 'config.py' : botType === 'rust' ? 'target/' : 'config.json');
+
+			const configFile = botType === 'python' ? 'config.py' : botType === 'rust' ? 'src/main.rs' : 'config.json';
+			const config = await readFile(path.join(root, configFile), 'utf8');
+			expect(config).toContain(defaultAnswers.botToken);
+			expect(config).not.toContain('<%= bot-token %>');
+
+			const nameFile = botType === 'rust' ? 'Cargo.toml' : 'package.json';
+			if (existsSync(path.join(root, nameFile))) {
+				expect(await readFile(path.join(root, nameFile), 'utf8')).toContain(defaultAnswers.botName);
+			}
+
+			if (botType === 'typescript' || botType === 'javascript') {
+				expect(existsSync(path.join(root, 'node_modules'))).toBe(false);
+			}
+		}
+	}, 120_000);
+
+	test('generates, builds and starts a TypeScript bot', async () => {
+		const root = await generate('typescript');
+		expect(existsSync(path.join(root, 'dist/src/index.js'))).toBe(true);
+
+		const output = await run('node', ['dist/src/index.js'], root, 60_000);
+		expect(output).toContain('TokenInvalid');
+	}, 240_000);
+
+	test('generates, checks and starts a JavaScript bot', async () => {
+		const root = await generate('javascript');
+		await exec('node', ['--check', 'src/index.js'], { cwd: root });
+
+		const output = await run('node', ['src/index.js'], root, 60_000);
+		expect(output).toContain('TokenInvalid');
+	}, 240_000);
+
+	test('generates a Python bot that compiles', async () => {
+		const root = await generate('python', ['skip-build', 'skip-install']);
+		await exec('python3', ['-m', 'py_compile', 'main.py', 'config.py'], { cwd: root });
+	}, 120_000);
+
+	test('generates a Rust bot that compiles', async () => {
+		const root = await generate('rust', ['skip-build', 'skip-install']);
+		await exec('cargo', ['check'], { cwd: root, timeout: 300_000 });
+	}, 360_000);
+});

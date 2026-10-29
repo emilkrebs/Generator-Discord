@@ -21,10 +21,15 @@ Generate a basic starter project for a new Discord-bot in your favorite programm
 
 ### Supported programming languages
 
-- TypeScript
-- JavaScript
-- Python
-- Rust
+- TypeScript (discord.js 14)
+- JavaScript (discord.js 14)
+- Python (discord.py 2.7)
+- Rust (serenity 0.12)
+
+### Requirements
+
+- Node.js 22.18 or newer
+- Python 3 and/or a Rust toolchain, if you generate those templates
 
 ### Your favorite is not listed?
 
@@ -48,6 +53,12 @@ npm install -g generator-discord
 
 ```bash
 yo discord
+```
+
+Add `--skip-install` to skip dependency installation and `--skip-build` to skip the initial build:
+
+```bash
+yo discord --skip-install --skip-build
 ```
 
 [![Example](https://github.com/emilkrebs/Generator-Discord/assets/68400102/aece1b93-b2dc-4c27-88ca-055836c8d322)](https://github.com/emilkrebs/Sound-Bot)

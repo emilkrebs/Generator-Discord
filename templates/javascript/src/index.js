@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('../config.json');
 
 // Create a new client instance with Intents that specify which privileged intents your bot requires
@@ -6,8 +6,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const prefix = '!';
 
 // Run this code when the client is ready. This event will only trigger one time after logging in
-client.once('ready', () => {
-	console.log(`Bot is logged in as ${client.user.tag}.`);
+client.once(Events.ClientReady, readyClient => {
+	console.log(`Bot is logged in as ${readyClient.user.tag}.`);
 });
 
 
@@ -39,4 +39,4 @@ client.on('messageCreate', async message => {
 // Login to Discord with your app's token
 client.login(token);
 
-// For more information about the Discord.js library, visit https://discord.js.org/#/docs/main/stable/general/welcome∏
+// For more information about the Discord.js library, visit https://discord.js.org/#/docs/main/stable/general/welcome

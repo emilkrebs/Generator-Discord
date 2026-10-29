@@ -13,15 +13,23 @@ Now that your fork is ready, you can start improving the project.
 # Testing the project
 Testing your work will always be helpful to check everything works as intended.
 
-### 1. Add your Discord Bot token to the environment variables
-You need to specify a valid Discord-Bot-Token to test the templates.
-```Dotenv
-TOKEN=YOUR_BOT_TOKEN
+### Requirements
+- Node.js 22.18 or newer
+- Python 3
+- A Rust toolchain (`cargo`)
+
+### 1. Install dependencies
 ```
-### 2. Run the test using
+npm ci
 ```
-npm run test
+
+### 2. Run the test suite
 ```
+npm test
+```
+
+The tests generate every template, build the TypeScript and JavaScript versions, compile the Python and Rust versions, and check that the generated bots start. No Discord token is required.
+
 You can also use `npm link` and `yo discord` to try the generator.
   
 ## 3. Creating the Pull Request

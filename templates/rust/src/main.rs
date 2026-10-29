@@ -13,10 +13,13 @@ impl EventHandler for Handler {
 
     async fn message(&self, ctx: Context, msg: Message) {
         // check if the message starts with the prefix
-        if msg.content.starts_with(&PREFIX) && !msg.author.bot {
+        if let Some(content) = msg.content.strip_prefix(PREFIX) {
+            if msg.author.bot {
+                return;
+            }
 
             // Split the message into command and arguments
-            let args = msg.content[PREFIX.len()..].trim().split(' ').collect::<Vec<&str>>();
+            let args = content.trim().split(' ').collect::<Vec<&str>>();
             let command = args[0];
 
             // ping - bot will reply with Pong!
