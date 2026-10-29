@@ -1,7 +1,7 @@
 {
   "name": "generator-discord",
   "displayName": "Generator-Discord",
-  "version": "1.40.0",
+  "version": "1.40.1",
   "type": "module",
   "exports": "./app/index.js",
   "description": "Create a basic Discord-Bot, supporting many programming languages.",
@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/emilkrebs/Generator-Discord",
   "dependencies": {
+    "mem-fs": "^4.1.5",
     "yeoman-generator": "^10.3.0"
   },
   "devDependencies": {
@@ -48,8 +49,8 @@
     "globals": "^17.13.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.72.1",
-    "vitest": "^5.0.5",
     "vite": "^8.3.5",
+    "vitest": "^5.0.5",
     "yeoman-environment": "^8.5.1",
     "yeoman-test": "^11.8.2"
   }
