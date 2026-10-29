@@ -20,7 +20,6 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: '24.x'
-          registry-url: https://registry.npmjs.org/
       - name: Clean install dependencies
         run: npm ci
       - name: Build
